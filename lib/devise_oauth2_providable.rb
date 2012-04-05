@@ -11,6 +11,15 @@ require 'devise/oauth2_providable/models/oauth2_password_grantable'
 require 'devise/oauth2_providable/models/oauth2_refresh_token_grantable'
 require 'devise/oauth2_providable/models/oauth2_authorization_code_grantable'
 
+require 'devise/oauth2_providable/orm_behaviors'
+[:base, :active_record, :mongo_mapper].each do |type|
+  require "devise/oauth2_providable/orm_behaviors/client_#{type}"
+  require "devise/oauth2_providable/orm_behaviors/access_token_#{type}"
+  require "devise/oauth2_providable/orm_behaviors/authorization_code_#{type}"
+  require "devise/oauth2_providable/orm_behaviors/refresh_token_#{type}"
+end
+
+
 module Devise
   module Oauth2Providable
     CLIENT_ENV_REF = 'oauth2.client'
