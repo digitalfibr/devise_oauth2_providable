@@ -7,6 +7,7 @@ require 'pry'
 require 'rspec/rails'
 require 'shoulda-matchers'
 require 'factory_girl_rspec'
+
 FactoryGirl.definition_file_paths = [File.join(spec_root, 'factories')]
 FactoryGirl.find_definitions
 
@@ -17,8 +18,8 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|
+  config.include ModelAbstraction
   config.include Devise::TestHelpers, :type => :controller
-
   config.use_transactional_fixtures = true
 
   # enable rendering of views for controller tests

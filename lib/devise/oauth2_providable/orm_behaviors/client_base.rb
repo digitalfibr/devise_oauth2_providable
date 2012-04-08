@@ -2,6 +2,7 @@ module Devise
   module Oauth2Providable
     module ORMBehaviors
       module ClientBase
+        extend ActiveSupport::Concern
         
         module InstanceMethods
 
@@ -16,9 +17,9 @@ module Devise
         
         def self.included base
           base.class_eval do
-            has_many :access_tokens
-            has_many :refresh_tokens
-            has_many :authorization_codes
+            has_many Devise::Oauth2Providable.ABSTRACT(:access_token_plur)
+            has_many Devise::Oauth2Providable.ABSTRACT(:refresh_token_plur)
+            has_many Devise::Oauth2Providable.ABSTRACT(:authorization_code_plur)
 
             before_validation :init_identifier, :on => :create, :unless => :identifier?
             before_validation :init_secret, :on => :create, :unless => :secret?

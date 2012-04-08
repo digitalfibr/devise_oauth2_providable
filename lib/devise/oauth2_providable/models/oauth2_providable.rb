@@ -5,8 +5,14 @@ module Devise
     module Oauth2Providable
       extend ActiveSupport::Concern
       included do
-        has_many :access_tokens, :class_name => 'Devise::Oauth2Providable::AccessToken'
-        has_many :authorization_codes, :class_name => 'Devise::Oauth2Providable::AuthorizationCode'
+        has_many(
+          Devise::Oauth2Providable.ABSTRACT(:access_token_plur),
+          :class_name => Devise::Oauth2Providable.ABSTRACT(:access_token).to_s
+        )
+        has_many(
+          Devise::Oauth2Providable.ABSTRACT(:authorization_code_plur),
+          :class_name =>  Devise::Oauth2Providable.ABSTRACT(:authorization_code).to_s
+        )
       end
     end
   end

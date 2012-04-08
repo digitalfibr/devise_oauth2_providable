@@ -78,7 +78,7 @@ bearer token spec)
 expires after 15min by default.  to customize the duration of the access token:
 
 ```ruby
-Devise::Oauth2Providable::AccessToken.default_lifetime = 1.minute
+ABSTRACT(:access_token).default_lifetime = 1.minute
 ```
 
 ### RefreshToken
@@ -90,7 +90,7 @@ requiring user intervention to re-authorize.
 expires after 1 month by default. to customize the duration of refresh token:
 
 ```ruby
-Devise::Oauth2Providable::RefreshToken.default_lifetime = 1.year
+ABSTRACT(:refresh_token).default_lifetime = 1.year
 ```
 
 ### AuthorizationCode
@@ -103,7 +103,7 @@ expires after 1min by default. to customize the duration of the
 authorization code:
 
 ```ruby
-Devise::Oauth2Providable::AuthorizationCode.default_lifetime = 5.minutes
+Devise::Oauth2Providable.models.authorization_code.default_lifetime = 5.minutes
 ```
 
 ## Routes

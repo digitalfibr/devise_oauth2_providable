@@ -1,5 +1,6 @@
 require 'devise'
 require 'rack/oauth2'
+require 'devise/oauth2_providable/models'
 require 'devise/oauth2_providable/engine'
 require 'devise/oauth2_providable/expirable_token'
 require 'devise/oauth2_providable/strategies/oauth2_providable_strategy'
@@ -12,7 +13,7 @@ require 'devise/oauth2_providable/models/oauth2_refresh_token_grantable'
 require 'devise/oauth2_providable/models/oauth2_authorization_code_grantable'
 
 require 'devise/oauth2_providable/orm_behaviors'
-[:base, :active_record, :mongo_mapper].each do |type|
+[:base, :active_record].each do |type|
   require "devise/oauth2_providable/orm_behaviors/client_#{type}"
   require "devise/oauth2_providable/orm_behaviors/access_token_#{type}"
   require "devise/oauth2_providable/orm_behaviors/authorization_code_#{type}"
@@ -25,6 +26,23 @@ module Devise
     CLIENT_ENV_REF = 'oauth2.client'
     REFRESH_TOKEN_ENV_REF = "oauth2.refresh_token"
 
+    def self.configure &block
+      @models = Models.new unless @models
+      block.call @models
+    end
+    
+    def self.models
+      @models ||= Models.new
+    end
+    
+    def self.ABSTRACT meth=nil
+      if meth
+        models.send meth
+      else
+        models
+      end
+    end
+    
     class << self
       def random_id
         SecureRandom.hex

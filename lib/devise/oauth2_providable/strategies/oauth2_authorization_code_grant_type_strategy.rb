@@ -8,7 +8,7 @@ module Devise
       end
 
       def authenticate_grant_type(client)
-        if code = client.authorization_codes.find_by_token(params[:code])
+        if code = client.send(Devise::Oauth2Providable.ABSTRACT(:authorization_code_plur)).find_by_token(params[:code])
           success! code.user
         elsif !halted?
           oauth_error! :invalid_grant, 'invalid authorization code request'
