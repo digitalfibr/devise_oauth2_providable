@@ -16,6 +16,8 @@ module Devise
         end
         
         def self.included base
+          base.send :include, Devise::Oauth2Providable::ExpirableToken
+          
           base.class_eval do
             has_many Devise::Oauth2Providable.ABSTRACT(:access_token_plur)
             has_many Devise::Oauth2Providable.ABSTRACT(:refresh_token_plur)

@@ -1,12 +1,22 @@
 require 'active_support/concern'
-require 'active_record'
+#require 'active_record'
 
 module Devise
   module Oauth2Providable
     module ExpirableToken
       extend ActiveSupport::Concern
 
+      def self.included base
+        base.send :extend, ClassMethods
+      end
+      
       module ClassMethods
+        def orm_default_scope
+          lambda {
+            where(self.arel_table[:expires_at].gteq(Time.now.utc))
+          }
+        end
+        
         def expires_according_to(config_name)
           cattr_accessor :default_lifetime
           self.default_lifetime = Rails.application.config.devise_oauth2_providable[config_name]
@@ -20,9 +30,7 @@ module Devise
           validates Oauth2Providable.ABSTRACT(:client_sym), :presence => true
           validates :token, :presence => true, :uniqueness => true
 
-          default_scope lambda {
-            where(self.arel_table[:expires_at].gteq(Time.now.utc))
-          }
+          default_scope orm_default_scope
 
           include LocalInstanceMethods
         end
@@ -52,6 +60,4 @@ module Devise
     end
   end
 end
-
-ActiveRecord::Base.send :include, Devise::Oauth2Providable::ExpirableToken
 

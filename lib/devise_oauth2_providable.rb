@@ -14,6 +14,7 @@ require 'devise/oauth2_providable/models/oauth2_authorization_code_grantable'
 
 require 'devise/oauth2_providable/behaviors'
 require 'devise/oauth2_providable/models'
+
 Devise::Oauth2Providable::Models::ABSTRACT_NAMES.each do |type|
   [:client, :access_token, :authorization_code, :refresh_token].each do |behavior|
     require "devise/oauth2_providable/behaviors/#{behavior}"
@@ -26,7 +27,8 @@ module Devise
     CLIENT_ENV_REF = 'oauth2.client'
     REFRESH_TOKEN_ENV_REF = "oauth2.refresh_token"
 
-    def self.configure &block
+    def self.configure_models &block
+      puts "configure_models"
       @models = Models.new unless @models
       block.call @models
     end

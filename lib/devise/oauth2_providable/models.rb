@@ -35,6 +35,7 @@ module Devise
       
       # Fill *_class field with default class if it exist
       def initialize
+        puts "/!\\ INITIALIZE ABSTRACT MODELS"
         ABSTRACT_NAMES.each do |abstract|
           # affect basic symbole
           send "#{abstract}_sym=".to_sym, abstract
@@ -48,9 +49,10 @@ module Devise
         begin
           # The following case do not append
           # "SSLError".underscore.camelize # => "SslError"
+          puts "load : #{model_sym}"
           model = model_sym.to_s.camelize.constantize
         rescue Exception => e
-          puts "model_sym exceptioin : #{e.message}"
+          puts "model_sym exception : #{e.message}"
           # Nothing to do, we failed to load constant
         end
         model

@@ -6,6 +6,8 @@ module Devise
         
         def self.included base
           base.class_eval do
+            include Devise::Oauth2Providable::ExpirableToken
+            
             expires_according_to :authorization_code_expires_in
           end
         end

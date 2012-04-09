@@ -31,6 +31,7 @@ module Devise
         
         def self.included base
           base.send :include, InstanceMethods
+          base.send :include, Devise::Oauth2Providable::ExpirableToken
           
           base.class_eval do
             expires_according_to :access_token_expires_in
