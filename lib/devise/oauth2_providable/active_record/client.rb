@@ -1,10 +1,11 @@
 module Devise
   module Oauth2Providable
-    module ORMBehaviors
-      module AccessTokenActiveRecord
+    module ActiveRecord
+      module Client
         extend ActiveSupport::Concern
+        
         def self.included base
-          base.send :include, AccessTokenBase
+          base.send :include, Behaviors::Client
         end
       end
     end

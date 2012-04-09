@@ -12,14 +12,13 @@ require 'devise/oauth2_providable/models/oauth2_password_grantable'
 require 'devise/oauth2_providable/models/oauth2_refresh_token_grantable'
 require 'devise/oauth2_providable/models/oauth2_authorization_code_grantable'
 
-require 'devise/oauth2_providable/orm_behaviors'
+require 'devise/oauth2_providable/behaviors'
 [:base, :active_record].each do |type|
-  require "devise/oauth2_providable/orm_behaviors/client_#{type}"
-  require "devise/oauth2_providable/orm_behaviors/access_token_#{type}"
-  require "devise/oauth2_providable/orm_behaviors/authorization_code_#{type}"
-  require "devise/oauth2_providable/orm_behaviors/refresh_token_#{type}"
+  [:client, :access_token, :authorization_code, :refresh_token].each do |behavior|
+    require "devise/oauth2_providable/behaviors/#{behavior}"
+    require "devise/oauth2_providable/active_record/#{behavior}"
+  end
 end
-
 
 module Devise
   module Oauth2Providable

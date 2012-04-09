@@ -1,7 +1,7 @@
 module Devise
   module Oauth2Providable
-    module ORMBehaviors
-      module AccessTokenBase
+    module Behaviors
+      module AccessToken
         extend ActiveSupport::Concern
         
         module InstanceMethods

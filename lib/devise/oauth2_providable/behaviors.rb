@@ -1,6 +1,6 @@
 module Devise
   module Oauth2Providable
-    module ORMBehaviors
+    module Behaviors
       extend ActiveSupport::Concern
       
     end

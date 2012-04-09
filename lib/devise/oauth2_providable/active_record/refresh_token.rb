@@ -1,12 +1,12 @@
 module Devise
   module Oauth2Providable
-    module ORMBehaviors
-      module AuthorizationCodeBase
+    module ActiveRecord
+      module RefreshToken
         extend ActiveSupport::Concern
         
         def self.included base
           base.class_eval do
-            expires_according_to :authorization_code_expires_in
+            include Behaviors::RefreshToken
           end
         end
       end

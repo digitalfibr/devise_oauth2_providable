@@ -1,7 +1,7 @@
 module Devise
   module Oauth2Providable
-    module ORMBehaviors
-      module RefreshTokenBase
+    module Behaviors
+      module RefreshToken
         extend ActiveSupport::Concern
         
         def self.included base

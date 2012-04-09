@@ -1,7 +1,7 @@
 module Devise
   module Oauth2Providable
-    module ORMBehaviors
-      module ClientBase
+    module Behaviors
+      module Client
         extend ActiveSupport::Concern
         
         module InstanceMethods
