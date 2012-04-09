@@ -9,10 +9,10 @@ module Devise
     # It's really tricky using meta programming
     # A more solid system should be implemented
     class Models
-      ABSTRACTT_NAMES = [:access_token, :authorization_code, :client, :refresh_token]
+      ABSTRACT_NAMES = [:access_token, :authorization_code, :client, :refresh_token]
       
       # meta generate referined accessor
-      ABSTRACTT_NAMES.each do |abstract|
+      ABSTRACT_NAMES.each do |abstract|
         # define symbole accessor
         sym_method = "#{abstract}_sym".to_sym
         attr_accessor sym_method
@@ -35,7 +35,7 @@ module Devise
       
       # Fill *_class field with default class if it exist
       def initialize
-        ABSTRACTT_NAMES.each do |abstract|
+        ABSTRACT_NAMES.each do |abstract|
           # affect basic symbole
           send "#{abstract}_sym=".to_sym, abstract
         end

@@ -13,7 +13,8 @@ require 'devise/oauth2_providable/models/oauth2_refresh_token_grantable'
 require 'devise/oauth2_providable/models/oauth2_authorization_code_grantable'
 
 require 'devise/oauth2_providable/behaviors'
-[:base, :active_record].each do |type|
+require 'devise/oauth2_providable/models'
+Devise::Oauth2Providable::Models::ABSTRACT_NAMES.each do |type|
   [:client, :access_token, :authorization_code, :refresh_token].each do |behavior|
     require "devise/oauth2_providable/behaviors/#{behavior}"
     require "devise/oauth2_providable/active_record/#{behavior}"

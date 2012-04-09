@@ -28,7 +28,7 @@ describe Devise::Oauth2Providable::Models do
   
   let (:models) { Devise::Oauth2Providable.models }
 
-  Devise::Oauth2Providable::Models::ABSTRACTT_NAMES.each do |abtract_name|
+  Devise::Oauth2Providable::Models::ABSTRACT_NAMES.each do |abtract_name|
     describe "abtract #{abtract_name}" do
       let (:abtract_name) { abtract_name }
       
