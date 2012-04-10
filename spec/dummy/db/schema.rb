@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,67 +13,67 @@
 
 ActiveRecord::Schema.define(:version => 20111014161437) do
 
-  create_table "oauth2_access_tokens", :force => true do |t|
+  create_table "authorizations", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "client_id"
-    t.integer  "refresh_token_id"
-    t.string   "token"
-    t.datetime "expires_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "oauth2_access_tokens", ["client_id"], :name => "index_oauth2_access_tokens_on_client_id"
-  add_index "oauth2_access_tokens", ["expires_at"], :name => "index_oauth2_access_tokens_on_expires_at"
-  add_index "oauth2_access_tokens", ["token"], :name => "index_oauth2_access_tokens_on_token", :unique => true
-  add_index "oauth2_access_tokens", ["user_id"], :name => "index_oauth2_access_tokens_on_user_id"
-
-  create_table "oauth2_authorization_codes", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "client_id"
+    t.integer  "client_app_id"
     t.string   "token"
     t.datetime "expires_at"
     t.string   "redirect_uri"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
-  add_index "oauth2_authorization_codes", ["client_id"], :name => "index_oauth2_authorization_codes_on_client_id"
-  add_index "oauth2_authorization_codes", ["expires_at"], :name => "index_oauth2_authorization_codes_on_expires_at"
-  add_index "oauth2_authorization_codes", ["token"], :name => "index_oauth2_authorization_codes_on_token", :unique => true
-  add_index "oauth2_authorization_codes", ["user_id"], :name => "index_oauth2_authorization_codes_on_user_id"
+  add_index "authorizations", ["client_app_id"], :name => "index_authorizations_on_client_app_id"
+  add_index "authorizations", ["expires_at"], :name => "index_authorizations_on_expires_at"
+  add_index "authorizations", ["token"], :name => "index_authorizations_on_token", :unique => true
+  add_index "authorizations", ["user_id"], :name => "index_authorizations_on_user_id"
 
-  create_table "oauth2_clients", :force => true do |t|
+  create_table "client_apps", :force => true do |t|
     t.string   "name"
     t.string   "redirect_uri"
     t.string   "website"
     t.string   "app_identifier"
     t.string   "secret"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
-  add_index "oauth2_clients", ["app_identifier"], :name => "index_oauth2_clients_on_app_identifier", :unique => true
+  add_index "client_apps", ["app_identifier"], :name => "index_client_apps_on_app_identifier", :unique => true
 
-  create_table "oauth2_refresh_tokens", :force => true do |t|
+  create_table "grant_access_tokens", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "client_id"
+    t.integer  "client_app_id"
+    t.integer  "refresh_request_id"
     t.string   "token"
     t.datetime "expires_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
-  add_index "oauth2_refresh_tokens", ["client_id"], :name => "index_oauth2_refresh_tokens_on_client_id"
-  add_index "oauth2_refresh_tokens", ["expires_at"], :name => "index_oauth2_refresh_tokens_on_expires_at"
-  add_index "oauth2_refresh_tokens", ["token"], :name => "index_oauth2_refresh_tokens_on_token", :unique => true
-  add_index "oauth2_refresh_tokens", ["user_id"], :name => "index_oauth2_refresh_tokens_on_user_id"
+  add_index "grant_access_tokens", ["client_app_id"], :name => "index_grant_access_tokens_on_client_app_id"
+  add_index "grant_access_tokens", ["expires_at"], :name => "index_grant_access_tokens_on_expires_at"
+  add_index "grant_access_tokens", ["token"], :name => "index_grant_access_tokens_on_token", :unique => true
+  add_index "grant_access_tokens", ["user_id"], :name => "index_grant_access_tokens_on_user_id"
+
+  create_table "refresh_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "client_app_id"
+    t.string   "token"
+    t.datetime "expires_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "refresh_requests", ["client_app_id"], :name => "index_refresh_requests_on_client_app_id"
+  add_index "refresh_requests", ["expires_at"], :name => "index_refresh_requests_on_expires_at"
+  add_index "refresh_requests", ["token"], :name => "index_refresh_requests_on_token", :unique => true
+  add_index "refresh_requests", ["user_id"], :name => "index_refresh_requests_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                             :default => "", :null => false
     t.string   "encrypted_password", :limit => 128, :default => "", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
   end
 
 end
