@@ -10,7 +10,7 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
 
           params = {
             :grant_type => 'password',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :username => @user.email,
             :password => 'test'
@@ -37,7 +37,7 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
             :password => 'test'
           }
 
-          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.identifier, client.secret
+          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.app_identifier, client.secret
           post '/oauth2/token', params, 'HTTP_AUTHORIZATION' => auth_header
         end
         it { response.code.to_i.should == 200 }
@@ -80,7 +80,7 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
             :username => @user.email,
             :password => 'test'
           }
-          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.identifier, 'invalid secret'
+          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.app_identifier, 'invalid secret'
           post '/oauth2/token', params, 'HTTP_AUTHORIZATION' => auth_header
         end
         it { response.code.to_i.should == 400 }
@@ -100,7 +100,7 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
 
           params = {
             :grant_type => 'password',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :username => @user.email,
             :password => 'bar'
@@ -150,7 +150,7 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
 
           params = {
             :grant_type => 'password',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => 'invalid',
             :username => @user.email,
             :password => 'test'

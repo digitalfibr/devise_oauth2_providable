@@ -12,9 +12,9 @@ describe ABSTRACT(:client) do
     it { should validate_presence_of :website }
     it { should allow_mass_assignment_of :website }
     it { should allow_mass_assignment_of :redirect_url }
-    it { should validate_uniqueness_of :identifier }
-    it { should have_db_index(:identifier).unique(true) }
-    it { should_not allow_mass_assignment_of :identifier }
+    it { should validate_uniqueness_of :app_identifier }
+    it { should have_db_index(:app_identifier).unique(true) }
+    it { should_not allow_mass_assignment_of :app_identifier }
     it { should_not allow_mass_assignment_of :secret }
     it { should have_many ABSTRACT(:refresh_token_plur) }
     it { should have_many ABSTRACT(:authorization_code_plur) }

@@ -10,7 +10,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
           @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :refresh_token => @refresh_token.token
           }
@@ -40,7 +40,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
           @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :refresh_token => @refresh_token.token
           }
@@ -65,7 +65,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
           @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :refresh_token => 'invalid'
           }
@@ -115,7 +115,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
           @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => 'invalid',
             :refresh_token => @refresh_token.token
           }

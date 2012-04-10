@@ -11,7 +11,7 @@ describe Devise::Oauth2Providable::AuthorizationsController do
       before do
         sign_in user
         get :new,
-          :client_id => client.identifier,
+          :client_id => client.app_identifier,
           :redirect_uri => redirect_uri,
           :response_type => 'code',
           :use_route => 'devise_oauth2_providable'
@@ -31,7 +31,7 @@ describe Devise::Oauth2Providable::AuthorizationsController do
       before do
         sign_in user
         get :new,
-          :client_id => client.identifier,
+          :client_id => client.app_identifier,
           :redirect_uri => redirect_uri,
           :response_type => 'code',
           :use_route => 'devise_oauth2_providable'

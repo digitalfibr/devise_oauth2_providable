@@ -4,12 +4,12 @@ class CreateDeviseOauth2ProvidableSchema < ActiveRecord::Migration
       t.string :name
       t.string :redirect_uri
       t.string :website
-      t.string :identifier
+      t.string :app_identifier
       t.string :secret
       t.timestamps
     end
     change_table :client_apps do |t|
-      t.index :identifier, :unique => true
+      t.index :app_identifier, :unique => true
     end
 
     create_table :grant_access_tokens do |t|

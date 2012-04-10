@@ -13,7 +13,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
           )
           params = {
             :grant_type => 'authorization_code',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :code => @authorization_code.token
           }
@@ -47,7 +47,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
           )
           params = {
             :grant_type => 'authorization_code',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :code => @authorization_code.token
           }
@@ -75,7 +75,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
           )
           params = {
             :grant_type => 'authorization_code',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :code => 'invalid'
           }
@@ -102,7 +102,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
           )
           params = {
             :grant_type => 'authorization_code',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => 'invalid',
             :code => @authorization_code.token
           }
