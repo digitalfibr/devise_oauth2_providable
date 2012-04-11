@@ -24,6 +24,7 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
           token = ABSTRACT(:access_token).last
           expected = token.token_response
           response.body.should match_json(expected)
+          
         end
       end
       context 'with valid params and client id/secret in basic auth header' do

@@ -10,7 +10,7 @@ module Devise
           base.class_eval do
             expires_according_to :refresh_token_expires_in
 
-            has_many Oauth2Providable.ABSTRACT(:access_token_plur)
+            has_many Devise::Oauth2Providable.ABSTRACT(:access_token_plur)
           end
         end
       end

@@ -20,7 +20,7 @@ module Devise
           # but flexible
           # should be replaced by meta prog
           def refresh_token
-            send Oauth2Providable.ABSTRACT(:refresh_token_sym)
+            send Devise::Oauth2Providable.ABSTRACT(:refresh_token_sym)
           end
 
         private
@@ -37,7 +37,7 @@ module Devise
             expires_according_to :access_token_expires_in
 
             before_validation :restrict_expires_at, :on => :create, :if => :refresh_token
-            belongs_to Oauth2Providable.ABSTRACT(:refresh_token_sym)
+            belongs_to Devise::Oauth2Providable.ABSTRACT(:refresh_token_sym)
           end
         end
       end

@@ -8,7 +8,7 @@ module Devise
       end
 
       def authenticate_grant_type(client)
-        refresh_tokens = client.send(Oauth2Providable.ABSTRACT(:refresh_token_plur))
+        refresh_tokens = client.send(Devise::Oauth2Providable.ABSTRACT(:refresh_token_plur))
         if refresh_token = refresh_tokens.find_by_token(params[:refresh_token])
           env[Devise::Oauth2Providable::REFRESH_TOKEN_ENV_REF] = refresh_token
           success! refresh_token.user

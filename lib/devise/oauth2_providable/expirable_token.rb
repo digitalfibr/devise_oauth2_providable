@@ -22,12 +22,12 @@ module Devise
           self.default_lifetime = Rails.application.config.devise_oauth2_providable[config_name]
 
           belongs_to :user
-          belongs_to Oauth2Providable.ABSTRACT(:client_sym)
+          belongs_to Devise::Oauth2Providable.ABSTRACT(:client_sym)
 
           after_initialize :init_token, :on => :create, :unless => :token?
           after_initialize :init_expires_at, :on => :create, :unless => :expires_at?
           validates :expires_at, :presence => true
-          validates Oauth2Providable.ABSTRACT(:client_sym), :presence => true
+          validates Devise::Oauth2Providable.ABSTRACT(:client_sym), :presence => true
           validates :token, :presence => true, :uniqueness => true
 
           default_scope orm_default_scope
