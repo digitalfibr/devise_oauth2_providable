@@ -4,10 +4,16 @@ class Devise::Oauth2Providable::TokensController < ApplicationController
 
   def create
     @refresh_token = oauth2_current_refresh_token
-    @refresh_token ||= oauth2_current_client.send(Devise::Oauth2Providable.ABSTRACT(:refresh_token_plur)).create!(:user => current_user)
-    @access_token = @refresh_token.send(Devise::Oauth2Providable.ABSTRACT(:access_token_plur)).create!(
+    unless @refresh_token
+      @refresh_token = Devise::Oauth2Providable.ABSTRACT(:refresh_token).create!(
+        :user => current_user,
+        Devise::Oauth2Providable.ABSTRACT(:client_sym) => oauth2_current_client
+      )
+    end
+    @access_token = Devise::Oauth2Providable.ABSTRACT(:access_token).create!(
+      :user => current_user,
       Devise::Oauth2Providable.ABSTRACT(:client_sym) => oauth2_current_client,
-      :user => current_user
+      Devise::Oauth2Providable.ABSTRACT(:refresh_token_sym) => @refresh_token
     )
     render :json => @access_token.token_response
   end

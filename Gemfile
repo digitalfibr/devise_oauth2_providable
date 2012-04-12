@@ -8,3 +8,5 @@ group :test do
     gem 'guard-rspec'
     gem 'growl' #grow notification
 end
+
+gem 'debugger', group: [:development, :test]

@@ -62,8 +62,6 @@ module Devise
             else
               raise "not handled verb : #{pre_verb}"
             end
-            
-            puts "GENERATE PATH : #{verb} #{path} #{requirements} for route #{route.name}"
 
             if verb == :all
               send(:match, path, requirements)

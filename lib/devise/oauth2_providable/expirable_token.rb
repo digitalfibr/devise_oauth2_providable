@@ -11,12 +11,12 @@ module Devise
       end
       
       module ClassMethods
-        def orm_default_scope
+        def lambda_not_expired
           lambda {
             where(self.arel_table[:expires_at].gteq(Time.now.utc))
           }
         end
-        
+
         def expires_according_to(config_name)
           cattr_accessor :default_lifetime
           self.default_lifetime = Rails.application.config.devise_oauth2_providable[config_name]
@@ -30,8 +30,10 @@ module Devise
           validates Devise::Oauth2Providable.ABSTRACT(:client_sym), :presence => true
           validates :token, :presence => true, :uniqueness => true
 
-          default_scope orm_default_scope
-
+          scope :not_expired, lambda_not_expired
+          
+          scope :of_client, lambda {|id| where(Devise::Oauth2Providable.ABSTRACT(:client_sym_id) => id)}
+          
           include LocalInstanceMethods
         end
       end

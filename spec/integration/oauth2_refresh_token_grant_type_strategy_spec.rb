@@ -24,7 +24,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
           refresh_token = @refresh_token
           expected = {
             :token_type => 'bearer',
-            :expires_in => 899,
+            :expires_in => 900,
             :refresh_token => refresh_token.token,
             :access_token => token.token
           }

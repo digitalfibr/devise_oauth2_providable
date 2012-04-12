@@ -24,9 +24,7 @@ end
 
 module Devise
   module Oauth2Providable
-    CLIENT_ENV_REF = 'oauth2.client'
-    REFRESH_TOKEN_ENV_REF = "oauth2.refresh_token"
-
+    
     def self.configure_models &block
       puts "configure_models"
       @models = Models.new unless @models
@@ -44,6 +42,10 @@ module Devise
         models
       end
     end
+    
+    CLIENT_ENV_REF = "oauth2.client"
+    
+    REFRESH_TOKEN_ENV_REF = "oauth2.refresh_token"
     
     class << self
       def random_id
