@@ -5,6 +5,7 @@ require File.expand_path("dummy/config/environment.rb",  spec_root)
 
 require 'pry'
 require 'rspec/rails'
+require 'database_cleaner'
 require 'shoulda-matchers'
 require 'factory_girl_rspec'
 
@@ -18,9 +19,22 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner[:active_record].strategy = :deletion
+    DatabaseCleaner.clean_with(:deletion)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+     
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+  
   config.include ModelAbstraction
   config.include Devise::TestHelpers, :type => :controller
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # enable rendering of views for controller tests
   # see http://stackoverflow.com/questions/4401539/rspec-2-how-to-render-views-by-default-for-all-controller-specs

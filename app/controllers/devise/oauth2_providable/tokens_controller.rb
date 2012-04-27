@@ -1,4 +1,5 @@
 class Devise::Oauth2Providable::TokensController < ApplicationController
+  before_filter :clear_session
   before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token, :only => :create
 
@@ -23,5 +24,8 @@ class Devise::Oauth2Providable::TokensController < ApplicationController
   end
   def oauth2_current_refresh_token
     env[Devise::Oauth2Providable::REFRESH_TOKEN_ENV_REF]
+  end
+  def clear_session
+    session.clear
   end
 end
