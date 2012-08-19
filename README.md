@@ -1,4 +1,50 @@
-# devise_oauth2_providable
+# devise_oauth2_providable (CUSTOM VERSION)
+
+My probleme with original devise_oauth2_providable gem was :
+ * It was dedicated only to ActiveRecord ORM, I'm using Mongoid
+ * It forces to use provided models, I needed to plug behaviour in my own models
+
+## ORM Behaviour Gems
+
+This version contains the default behaviour for ActiveRecord.
+If you need something else you can :
+ * use Mongoid Behaviour : https://github.com/proxygear/devise_oauth2_providable_mongoid
+ * create your own ... but I can help you of course ;)
+
+````.rb
+gem 'devise_oauth2_providable', :git => 'https://github.com/proxygear/devise_oauth2_providable.git'
+# The :branch => :mongo_mapper_orm is not necessary anymore. I did merge it into the master.
+gem 'devise_oauth2_providable_mongoid', :git => 'https://github.com/proxygear/devise_oauth2_providable_mongoid.git'
+````
+
+## Model Configuration
+
+Feel free to use the names you want :
+Create a config/initializer/oauth2_providable_models.rb initializer file.
+
+````.rb
+Devise::Oauth2Providable.configure_models() do |abstract|
+  abstract.client_sym = :my_client_app
+  abstract.refresh_token_sym = :refresh_token
+  abstract.authorization_code_sym = :tmp_authorization_code
+  abstract.access_token_sym = :access_token
+end
+````
+
+## Code quality & Specs
+
+Those gem were created in a kind of rush period ...
+It work for sure, I have them in production. But it could be improved for sure.
+If you so desire, for the fate of code beauty, you can pull request.
+
+## Support
+
+If you have any problem, don't hesitate to contact me, issue on github, scream ...
+Thank you.
+
+Here is the original README stuff.
+
+# devise_oauth2_providable (ORIGINAL README)
 
 Rails3 engine that brings OAuth2 Provider support to your application.
 
