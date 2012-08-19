@@ -6,14 +6,14 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       context 'with valid params' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
 
           params = {
             :grant_type => 'password',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :username => @user.email,
-            :password => 'test'
+            :password => 'testtest'
           }
 
           post '/oauth2/token', params
@@ -21,30 +21,31 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
         it { response.code.to_i.should == 200 }
         it { response.content_type.should == 'application/json' }
         it 'returns json' do
-          token = Devise::Oauth2Providable::AccessToken.last
+          token = ABSTRACT(:access_token).last
           expected = token.token_response
           response.body.should match_json(expected)
+          
         end
       end
       context 'with valid params and client id/secret in basic auth header' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
 
           params = {
             :grant_type => 'password',
             :username => @user.email,
-            :password => 'test'
+            :password => 'testtest'
           }
 
-          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.identifier, client.secret
+          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.app_identifier, client.secret
           post '/oauth2/token', params, 'HTTP_AUTHORIZATION' => auth_header
         end
         it { response.code.to_i.should == 200 }
         it { response.content_type.should == 'application/json' }
         it 'returns json' do
           puts response.body
-          token = Devise::Oauth2Providable::AccessToken.last
+          token = ABSTRACT(:access_token).last
           expected = token.token_response
           response.body.should match_json(expected)
         end
@@ -52,11 +53,11 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       context 'with invalid client id in basic auth header' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
           params = {
             :grant_type => 'password',
             :username => @user.email,
-            :password => 'test'
+            :password => 'testtest'
           }
           auth_header = ActionController::HttpAuthentication::Basic.encode_credentials 'invalid client id', client.secret
           post '/oauth2/token', params, 'HTTP_AUTHORIZATION' => auth_header
@@ -74,13 +75,13 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       context 'with invalid client secret in basic auth header' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
           params = {
             :grant_type => 'password',
             :username => @user.email,
-            :password => 'test'
+            :password => 'testtest'
           }
-          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.identifier, 'invalid secret'
+          auth_header = ActionController::HttpAuthentication::Basic.encode_credentials client.app_identifier, 'invalid secret'
           post '/oauth2/token', params, 'HTTP_AUTHORIZATION' => auth_header
         end
         it { response.code.to_i.should == 400 }
@@ -96,11 +97,11 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       context 'with invalid password' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
 
           params = {
             :grant_type => 'password',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :username => @user.email,
             :password => 'bar'
@@ -121,14 +122,14 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       context 'with invalid client_id' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
 
           params = {
             :grant_type => 'password',
             :client_id => 'invalid',
             :client_secret => client.secret,
             :username => @user.email,
-            :password => 'test'
+            :password => 'testtest'
           }
 
           post '/oauth2/token', params
@@ -146,14 +147,14 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       context 'with invalid client_secret' do
         with :client
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'test'
+          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
 
           params = {
             :grant_type => 'password',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => 'invalid',
             :username => @user.email,
-            :password => 'test'
+            :password => 'testtest'
           }
 
           post '/oauth2/token', params

@@ -37,7 +37,12 @@ module Devise
 
           engine.routes.routes.each do |route|
             # Call the method by hand based on the symbol
-            path = "/#{engine_name.underscore}#{route.path}"
+            pre_path = route.path
+            if pre_path.kind_of?(Journey::Path::Pattern) # seams that complexe types are now in use
+              path = pre_path = "/#{engine_name.underscore}#{pre_path.spec.to_s}"
+            else
+              path = "/#{engine_name.underscore}#{pre_path}"
+            end
             requirements = route.requirements
             if path_helper = named_routes[route]
               requirements[:as] = path_helper
@@ -48,8 +53,21 @@ module Devise
               resourced_routes << route.requirements[:controller].gsub("#{engine_name.downcase}/", "").to_sym
             end
 
-            verb = (route.verb.blank? ? "GET" : route.verb).downcase.to_sym
-            send(verb, path, requirements) if respond_to?(verb)
+            pre_verb = (route.verb.blank? ? "GET" : route.verb)
+            
+            if pre_verb.to_s == "(?-mix:)"
+              verb = :all
+            elsif pre_verb.to_s == "(?-mix:^POST$)"
+              verb = :post
+            else
+              raise "not handled verb : #{pre_verb}"
+            end
+
+            if verb == :all
+              send(:match, path, requirements)
+            else
+              send(verb, path, requirements)
+            end
           end
   
           # Add each route, once, to the end under a scope to trick path helpers.

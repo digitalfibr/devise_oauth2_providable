@@ -1,55 +1,55 @@
 class CreateDeviseOauth2ProvidableSchema < ActiveRecord::Migration
   def change
-    create_table :oauth2_clients do |t|
+    create_table :client_apps do |t|
       t.string :name
       t.string :redirect_uri
       t.string :website
-      t.string :identifier
+      t.string :app_identifier
       t.string :secret
       t.timestamps
     end
-    change_table :oauth2_clients do |t|
-      t.index :identifier, :unique => true
+    change_table :client_apps do |t|
+      t.index :app_identifier, :unique => true
     end
 
-    create_table :oauth2_access_tokens do |t|
-      t.belongs_to :user, :client, :refresh_token
+    create_table :grant_access_tokens do |t|
+      t.belongs_to :user, :client_app, :refresh_request
       t.string :token
       t.datetime :expires_at
       t.timestamps
     end
-    change_table :oauth2_access_tokens do |t|
+    change_table :grant_access_tokens do |t|
       t.index :token, :unique => true
       t.index :expires_at
       t.index :user_id
-      t.index :client_id
+      t.index :client_app_id
     end
 
-    create_table :oauth2_refresh_tokens do |t|
-      t.belongs_to :user, :client
+    create_table :refresh_requests do |t|
+      t.belongs_to :user, :client_app
       t.string :token
       t.datetime :expires_at
       t.timestamps
     end
-    change_table :oauth2_refresh_tokens do |t|
+    change_table :refresh_requests do |t|
       t.index :token, :unique => true
       t.index :expires_at
       t.index :user_id
-      t.index :client_id
+      t.index :client_app_id
     end
 
-    create_table :oauth2_authorization_codes do |t|
-      t.belongs_to :user, :client
+    create_table :authorizations do |t|
+      t.belongs_to :user, :client_app
       t.string :token
       t.datetime :expires_at
       t.string :redirect_uri
       t.timestamps
     end
-    change_table :oauth2_authorization_codes do |t|
+    change_table :authorizations do |t|
       t.index :token, :unique => true
       t.index :expires_at
       t.index :user_id
-      t.index :client_id
+      t.index :client_app_id
     end
   end
 end

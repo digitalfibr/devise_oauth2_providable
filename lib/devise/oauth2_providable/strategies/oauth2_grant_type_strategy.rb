@@ -13,11 +13,12 @@ module Devise
 
       # defined by subclass
       def authenticate_grant_type(client)
+        oauth_error! :invalid_grant_type, 'invalid grant type'
       end
 
       def authenticate!
         client_id, client_secret = request.authorization ? decode_credentials : [params[:client_id], params[:client_secret]]
-        client = Devise::Oauth2Providable::Client.find_by_identifier client_id
+        client = Devise::Oauth2Providable.ABSTRACT(:client).find_by_app_identifier client_id
         if client && client.secret == client_secret
           env[Devise::Oauth2Providable::CLIENT_ENV_REF] = client
           authenticate_grant_type(client)

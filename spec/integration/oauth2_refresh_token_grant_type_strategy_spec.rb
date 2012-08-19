@@ -7,10 +7,10 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         with :client
         with :user
         before do
-          @refresh_token = client.refresh_tokens.create! :user => user
+          @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :refresh_token => @refresh_token.token
           }
@@ -20,11 +20,11 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         it { response.code.to_i.should == 200 }
         it { response.content_type.should == 'application/json' }
         it 'returns json' do
-          token = Devise::Oauth2Providable::AccessToken.last
+          token = ABSTRACT(:access_token).last
           refresh_token = @refresh_token
           expected = {
             :token_type => 'bearer',
-            :expires_in => 899,
+            :expires_in => 900,
             :refresh_token => refresh_token.token,
             :access_token => token.token
           }
@@ -37,10 +37,10 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         before do
           timenow = 2.days.from_now
           Time.stub!(:now).and_return(timenow)
-          @refresh_token = client.refresh_tokens.create! :user => user
+          @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :refresh_token => @refresh_token.token
           }
@@ -62,10 +62,10 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         with :user
         with :client
         before do
-          @refresh_token = client.refresh_tokens.create! :user => user
+          @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => client.secret,
             :refresh_token => 'invalid'
           }
@@ -75,8 +75,8 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         it { response.code.to_i.should == 400 }
         it { response.content_type.should == 'application/json' }
         it 'returns json' do
-          token = Devise::Oauth2Providable::AccessToken.last
-          refresh_token = @refresh_token
+          token = ABSTRACT(:access_token).last
+          refresh_token = @refresh_toke
           expected = {
             :error => 'invalid_grant',
             :error_description => 'invalid refresh token'
@@ -88,7 +88,7 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         with :user
         with :client
         before do
-          @refresh_token = client.refresh_tokens.create! :user => user
+          @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
             :client_id => 'invalid',
@@ -112,10 +112,10 @@ describe Devise::Strategies::Oauth2RefreshTokenGrantTypeStrategy do
         with :user
         with :client
         before do
-          @refresh_token = client.refresh_tokens.create! :user => user
+          @refresh_token = client.send(ABSTRACT(:refresh_token_plur)).create! :user => user
           params = {
             :grant_type => 'refresh_token',
-            :client_id => client.identifier,
+            :client_id => client.app_identifier,
             :client_secret => 'invalid',
             :refresh_token => @refresh_token.token
           }
