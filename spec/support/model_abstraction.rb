@@ -17,5 +17,5 @@ end
 
 include ModelAbstraction
 
-puts ModelAbstraction::SharedMethods.ABSTRACT
-puts ABSTRACT()
+#puts ModelAbstraction::SharedMethods.ABSTRACT
+#puts ABSTRACT()

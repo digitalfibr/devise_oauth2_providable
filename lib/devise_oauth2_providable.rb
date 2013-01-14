@@ -26,7 +26,7 @@ module Devise
   module Oauth2Providable
     
     def self.configure_models &block
-      puts "configure_models"
+      #puts "configure_models"
       @models = Models.new unless @models
       block.call @models
     end
