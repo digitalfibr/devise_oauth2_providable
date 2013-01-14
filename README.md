@@ -1,4 +1,4 @@
-# devise_oauth2_providable (CUSTOM VERSION)
+# A great fork of : devise_oauth2_providable
 
 My probleme with original devise_oauth2_providable gem was :
  * It was dedicated only to ActiveRecord ORM, I'm using Mongoid
@@ -9,10 +9,11 @@ My probleme with original devise_oauth2_providable gem was :
 This version contains the default behaviour for ActiveRecord.
 If you need something else you can :
  * use Mongoid Behaviour : https://github.com/proxygear/devise_oauth2_providable_mongoid
- * create your own ... but I can help you of course ;)
+ * create your own ... Ask help if you need ;)
 
 ````.rb
 gem 'devise_oauth2_providable', :git => 'https://github.com/proxygear/devise_oauth2_providable.git'
+
 # The :branch => :mongo_mapper_orm is not necessary anymore. I did merge it into the master.
 gem 'devise_oauth2_providable_mongoid', :git => 'https://github.com/proxygear/devise_oauth2_providable_mongoid.git'
 ````
@@ -34,12 +35,12 @@ end
 ## Code quality & Specs
 
 Those gem were created in a kind of rush period ...
-It work for sure, I have them in production. But it could be improved for sure.
-If you so desire, for the fate of code beauty, you can pull request.
+It works (1 year in production) but could be improved.
+If you so desire, for the fate of code beauty, simply pull request.
 
 ## Support
 
-If you have any problem, don't hesitate to contact me, issue on github, scream ...
+If you have any problem, just contact me, issue on github, scream ...
 Thank you.
 
 Here is the original README stuff.
