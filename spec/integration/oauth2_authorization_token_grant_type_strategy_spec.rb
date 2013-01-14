@@ -8,7 +8,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
         with :user
         before do
           @authorization_code = user.send(ABSTRACT(:authorization_code_plur)).create(
-            ABSTRACT(:client_sym_id) => client,
+            ABSTRACT(:client_sym_id) => client.id,
             :redirect_uri => client.redirect_uri
           )
           params = {
@@ -42,7 +42,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
           Time.stub!(:now).and_return(timenow)
           code_class = user.send ABSTRACT(:authorization_code_plur)
           @authorization_code = code_class.create(
-            ABSTRACT(:client_sym_id) => client,
+            ABSTRACT(:client_sym_id) => client.id,
             :redirect_uri => client.redirect_uri
           )
           params = {
@@ -70,7 +70,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
         with :user
         before do
           @authorization_code = user.send(ABSTRACT(:authorization_code_plur)).create(
-            ABSTRACT(:client_sym_id) => client,
+            ABSTRACT(:client_sym_id) => client.id,
             :redirect_uri => client.redirect_uri
           )
           params = {
@@ -97,7 +97,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
         with :client
         before do
           @authorization_code = user.send(ABSTRACT(:authorization_code_plur)).create(
-            ABSTRACT(:client_sym_id) => client,
+            ABSTRACT(:client_sym_id) => client.id,
             :redirect_uri => client.redirect_uri
           )
           params = {
@@ -124,7 +124,7 @@ describe Devise::Strategies::Oauth2AuthorizationCodeGrantTypeStrategy do
         with :client
         before do
           @authorization_code = user.send(ABSTRACT(:authorization_code_plur)).create(
-            ABSTRACT(:client_sym_id) => client,
+            ABSTRACT(:client_sym_id) => client.id,
             :redirect_uri => client.redirect_uri
           )
           params = {

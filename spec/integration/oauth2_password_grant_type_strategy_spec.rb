@@ -96,14 +96,13 @@ describe Devise::Strategies::Oauth2PasswordGrantTypeStrategy do
       end
       context 'with invalid password' do
         with :client
+        let(:user) { User.create! :email => 'ryan@socialcast.com', :password => 'testtest' }
         before do
-          @user = User.create! :email => 'ryan@socialcast.com', :password => 'testtest'
-
           params = {
             :grant_type => 'password',
             :client_id => client.app_identifier,
             :client_secret => client.secret,
-            :username => @user.email,
+            :username => user.email,
             :password => 'bar'
           }
 
