@@ -1,21 +1,25 @@
 require 'spec_helper'
+include Warden::Test::Helpers
 
 describe 'SignInRequest' do
   let(:client_app) { Factory(:client) }
   let(:user_email) { "test_sign_up@sush.io" }
   let(:user_password) { "mySECRETpass" }
-  let(:user) { Factory(:user, :email => user_email, :password => user_password) }
+  let(:user) { User.where(email: user_email).first }
   
   it 'assumes iphone workflow' do
     # 0 - We sign up
-    params = {
+    user_params = {
       :email => user_email,
       :password => user_password
     }
     
-    post '/users/', params
+    post '/users/', user: user_params
     
-    response.status.to_i.should == 200
+    response.status.to_i.should == 302
+
+    User.count.should == 1
+    #logout
 
     # -------------------------------------------------------------------------
     # 1 - We sign in through grant password
@@ -23,14 +27,16 @@ describe 'SignInRequest' do
       :grant_type => 'password',
       :client_id => client_app.app_identifier,
       :client_secret => client_app.secret,
-      :username => user.email,
+      :username => user_email,
       :password => user_password
     }
 
     post '/oauth2/token', params
 
-    User.count.should == 1
-    puts "response #{response.body}"
+    RefreshRequest.count.should == 1
+    GrantAccessToken.count.should == 1
+
+    #puts "response #{response.body}"
     response.code.to_i.should == 200
 
     RefreshRequest.count.should == 1
@@ -51,7 +57,7 @@ describe 'SignInRequest' do
       :refresh_token => refresh_token.token
     }
 
-    puts "params : #{params} => #{refresh_token.inspect}"
+    #puts "params : #{params} => #{refresh_token.inspect}"
 
     post '/oauth2/token', params
 
@@ -77,7 +83,7 @@ describe 'SignInRequest' do
     [RefreshRequest, GrantAccessToken].each do |model|
       model.all.each do |r|
         r.expires_at = expired_date
-        r.save
+        r.save!
       end
     end
 
@@ -93,6 +99,7 @@ describe 'SignInRequest' do
 
     post '/oauth2/token', params
 
-    response.code.to_i.should == 400
+    response.code.to_i.should == 200
+    RefreshRequest.count.should == 2
   end
 end

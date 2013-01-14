@@ -20,10 +20,25 @@ class Devise::Oauth2Providable::TokensController < ApplicationController
   end
   private
   def oauth2_current_client
-   env[Devise::Oauth2Providable::CLIENT_ENV_REF]
+   env[Devise::Oauth2Providable::CLIENT_ENV_REF] ||= get_client
   end
   def oauth2_current_refresh_token
-    env[Devise::Oauth2Providable::REFRESH_TOKEN_ENV_REF]
+    env[Devise::Oauth2Providable::REFRESH_TOKEN_ENV_REF] ||= get_refresh_token
+  end
+  
+  def get_client
+    if params[:client_id] && params[:client_secret]
+      client_id, client_secret = request.authorization ? decode_credentials : [params[:client_id], params[:client_secret]]
+      client = Devise::Oauth2Providable.ABSTRACT(:client).find_by_app_identifier client_id
+      client if client && client.secret == client_secret
+    end
+  end
+  
+  def get_refresh_token
+    if params[:refresh_token]
+      model = Devise::Oauth2Providable.ABSTRACT(:refresh_token)
+      model.not_expired.of_client(oauth2_current_client.id).find_by_token(params[:refresh_token])
+    end
   end
   # def clear_session
   #   session.clear
