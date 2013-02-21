@@ -1,4 +1,13 @@
 module ModelAbstraction
+  extend ActiveSupport::Concern
+
+  included do
+    class_eval do
+      include SharedMethods
+      extend SharedMethods
+    end
+  end
+
   module SharedMethods
     def ABSTRACT meth=nil
       if meth
@@ -7,11 +16,6 @@ module ModelAbstraction
         ::Devise::Oauth2Providable.models
       end
     end
-  end
-
-  def self.included base
-    base.send :include, SharedMethods
-    base.send :extend, SharedMethods
   end
 end
 
