@@ -13,7 +13,7 @@ module Devise
         token = model.not_expired.find_by_token @req.access_token
         env[Devise::Oauth2Providable::CLIENT_ENV_REF] = token.send(Devise::Oauth2Providable.ABSTRACT(:client_sym)) if token
         resource = token ? token.user : nil
-        if validate(resource)
+        if resource && validate(resource)
           success! resource
         elsif !halted?
           fail(:invalid_token)
