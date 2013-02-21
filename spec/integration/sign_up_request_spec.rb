@@ -2,7 +2,7 @@ require 'spec_helper'
 include Warden::Test::Helpers
 
 describe 'SignInRequest' do
-  let(:client_app) { Factory(:client) }
+  let(:client_app) { create :client }
   let(:user_email) { "test_sign_up@sush.io" }
   let(:user_password) { "mySECRETpass" }
   let(:user) { User.where(email: user_email).first }
