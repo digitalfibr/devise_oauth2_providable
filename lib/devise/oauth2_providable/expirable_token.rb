@@ -6,10 +6,12 @@ module Devise
     module ExpirableToken
       extend ActiveSupport::Concern
 
-      def self.included base
-        base.send :extend, ClassMethods
+      included do
+        class_eval do
+          extend ClassMethods
+        end
       end
-      
+
       module ClassMethods
         def lambda_not_expired
           lambda {
@@ -34,11 +36,11 @@ module Devise
           
           scope :of_client, lambda {|id| where(Devise::Oauth2Providable.ABSTRACT(:client_sym_id) => id)}
           
-          include LocalInstanceMethods
+          include ExpirationMethods
         end
       end
 
-      module LocalInstanceMethods
+      module ExpirationMethods
         # number of seconds until the token expires
         def expires_in
           expires_at.to_i - Time.now.utc.to_i

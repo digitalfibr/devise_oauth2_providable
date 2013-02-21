@@ -4,8 +4,10 @@ module Devise
       module AuthorizationCode
         extend ActiveSupport::Concern
         
-        def self.included base
-          base.send :include, Devise::Oauth2Providable::Behaviors::AuthorizationCode
+        included do
+          class_eval do
+            include Devise::Oauth2Providable::Behaviors::AuthorizationCode
+          end
         end
       end
     end

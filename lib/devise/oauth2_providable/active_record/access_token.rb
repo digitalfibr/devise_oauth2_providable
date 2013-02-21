@@ -3,8 +3,10 @@ module Devise
     module ActiveRecord
       module AccessToken
         extend ActiveSupport::Concern
-        def self.included base
-          base.send :include, Behaviors::AccessToken
+        included do
+          class_eval do
+            include Behaviors::AccessToken
+          end
         end
       end
     end

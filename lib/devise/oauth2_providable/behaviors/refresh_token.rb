@@ -4,10 +4,10 @@ module Devise
       module RefreshToken
         extend ActiveSupport::Concern
         
-        def self.included base
-          base.send :include, Devise::Oauth2Providable::ExpirableToken
-          
-          base.class_eval do
+        included do
+          class_eval do
+            include Devise::Oauth2Providable::ExpirableToken
+
             expires_according_to :refresh_token_expires_in
 
             has_many Devise::Oauth2Providable.ABSTRACT(:access_token_plur)

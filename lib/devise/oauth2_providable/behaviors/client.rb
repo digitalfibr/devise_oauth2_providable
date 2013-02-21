@@ -3,22 +3,11 @@ module Devise
     module Behaviors
       module Client
         extend ActiveSupport::Concern
-        
-        module InstanceMethods
 
-        private
-          def init_app_identifier
-            self.app_identifier = Devise::Oauth2Providable.random_id
-          end
-          def init_secret
-            self.secret = Devise::Oauth2Providable.random_id
-          end
-        end
-        
-        def self.included base
-          base.send :include, Devise::Oauth2Providable::ExpirableToken
-          
-          base.class_eval do
+        included do
+          class_eval do
+            include Devise::Oauth2Providable::ExpirableToken
+
             has_many Devise::Oauth2Providable.ABSTRACT(:access_token_plur)
             has_many Devise::Oauth2Providable.ABSTRACT(:refresh_token_plur)
             has_many Devise::Oauth2Providable.ABSTRACT(:authorization_code_plur)
@@ -30,11 +19,16 @@ module Devise
             validates :app_identifier, :presence => true, :uniqueness => true
 
             attr_accessible :name, :website, :redirect_url
-
-            include InstanceMethods
           end
         end
-        
+
+        private
+        def init_app_identifier
+          self.app_identifier = Devise::Oauth2Providable.random_id
+        end
+        def init_secret
+          self.secret = Devise::Oauth2Providable.random_id
+        end
       end
     end
   end

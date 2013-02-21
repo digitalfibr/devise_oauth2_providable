@@ -4,8 +4,10 @@ module Devise
       module Client
         extend ActiveSupport::Concern
         
-        def self.included base
-          base.send :include, Behaviors::Client
+        included do
+          class_eval do
+            include Behaviors::Client
+          end
         end
       end
     end

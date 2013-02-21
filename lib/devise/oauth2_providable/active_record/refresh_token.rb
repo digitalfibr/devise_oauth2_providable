@@ -4,8 +4,8 @@ module Devise
       module RefreshToken
         extend ActiveSupport::Concern
         
-        def self.included base
-          base.class_eval do
+        included do
+          class_eval do
             include Behaviors::RefreshToken
           end
         end

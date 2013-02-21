@@ -2,8 +2,11 @@ module Devise
   module Oauth2Providable
     module ORMBehaviors
       module AuthorizationCodeMongoMapper
-        def self.included base
-          base.send :include, AuthorizationCode
+        extend ActiveSupport::Concern
+        included do
+          class_eval do
+            include AuthorizationCode
+          end
         end
       end
     end
