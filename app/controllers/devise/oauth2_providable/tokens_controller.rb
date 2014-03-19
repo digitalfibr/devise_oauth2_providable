@@ -16,6 +16,18 @@ class Devise::Oauth2Providable::TokensController < ApplicationController
       Devise::Oauth2Providable.ABSTRACT(:client_sym) => oauth2_current_client,
       Devise::Oauth2Providable.ABSTRACT(:refresh_token_sym) => @refresh_token
     )
+
+    #
+    # Antoine :
+    #
+    # On first app boot, first token_response call return nil while it should not,
+    # calling it 2 times fix it.
+    #
+    # I know that's an ugly hack but I don't wanna spend more time on this.
+    #
+
+    @access_token.token_response
+
     render :json => @access_token.token_response
   end
   private
@@ -25,7 +37,7 @@ class Devise::Oauth2Providable::TokensController < ApplicationController
   def oauth2_current_refresh_token
     env[Devise::Oauth2Providable::REFRESH_TOKEN_ENV_REF] ||= get_refresh_token
   end
-  
+
   def get_client
     if params[:client_id] && params[:client_secret]
       client_id, client_secret = request.authorization ? decode_credentials : [params[:client_id], params[:client_secret]]
@@ -33,7 +45,7 @@ class Devise::Oauth2Providable::TokensController < ApplicationController
       client if client && client.secret == client_secret
     end
   end
-  
+
   def get_refresh_token
     if params[:refresh_token]
       model = Devise::Oauth2Providable.ABSTRACT(:refresh_token)
